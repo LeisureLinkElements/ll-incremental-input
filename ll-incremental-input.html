@@ -1,0 +1,84 @@
+<link rel="import" href="../polymer/polymer.html">
+<script type="application/javascript" src="../lodash/lodash.js"></script>
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <ll-incremental-input></ll-incremental-input>
+
+@demo
+-->
+<dom-module id="ll-incremental-input">
+
+  <style>
+  </style>
+
+  <template>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'll-incremental-input',
+
+    extends: 'input',
+
+    properties: {
+      _waitAndSubmit: {
+        type: Object,
+        value: function() {
+          return _.debounce(this._submit, 500);
+        }
+      },
+      _currentValue: {
+        type: Object,
+        value: null
+      },
+      _lastFiredValue: {
+        type: Object,
+        value: null
+      }
+    },
+
+    listeners: {
+      'paste': '_onPaste',
+      'keydown': '_onKeyDown'
+    },
+
+    /**
+     * Fired when a search is submitted
+     *
+     * @event input-changed
+     */
+
+    // Element Lifecycle
+
+    // Element Behavior
+    _submit: function() {
+      this._currentValue = this.value;
+      if(this._currentValue !== this._lastFiredValue) {
+        this._lastFiredValue = this._currentValue;
+        this.fire('input-changed');
+      }
+    },
+
+    _onPaste: function() {
+      _.defer(this._submit);
+    },
+
+    _onKeyDown: function(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault();
+        this._submit();
+      } else {
+        this._waitAndSubmit();
+      }
+    }
+  });
+
+</script>
