@@ -66,7 +66,7 @@ Example:
       this._currentValue = this.value;
       if(this._currentValue !== this._lastFiredValue) {
         this._lastFiredValue = this._currentValue;
-        this.fire('input-changed');
+        this.fire('input-changed', { value: this._currentValue });
       }
     },
 

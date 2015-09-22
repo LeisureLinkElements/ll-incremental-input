@@ -20,11 +20,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <p>An example of <code>&lt;ll-incremental-input&gt;</code>:</p>
 
-    <input is="ll-incremental-input" />
+    <p><pre>The ll-incremental-input control uses a debounce as you're typing to fire off an event every 500 milliseconds.<br/>The event contains the text from the input field in the detail.value property of the event. Pressing enter after typing will fire the event immediately.</br>One note, the event will only be fired if the text has changed. Pressing enter after the 500ms debounce will not fire the event again.</pre></p>
+
+    <input is="ll-incremental-input"  placeholder="Enter some text..." value="Hello"/>
+    <span></span>
 
     <script>
-      document.querySelector('input').addEventListener('input-changed', function() {
-        console.log('input-changed');
+      document.querySelector('input').addEventListener('input-changed', function(e, detail) {
+        document.querySelector('span').innerHTML = e.detail.value;
       });
     </script>
 
